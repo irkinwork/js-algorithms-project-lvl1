@@ -12,8 +12,13 @@ test('simple search', () => {
   expect(searchEngine.search('shoot')).toEqual(['doc1', 'doc2'])
 });
 
-test.only('search with punctuation marks', () => {
+test('search with punctuation marks', () => {
   const searchEngine = buildEngine(docs);
   expect(searchEngine.search('pint')).toEqual(['doc1'])
   expect(searchEngine.search('pint!')).toEqual(['doc1'])
 });
+
+test('relevant search', () => {
+  const searchEngine = buildEngine(docs);
+  expect(searchEngine.search('shoot')).toEqual(['doc2', 'doc1'])
+})
