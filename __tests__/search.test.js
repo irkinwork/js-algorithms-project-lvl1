@@ -1,3 +1,4 @@
+import { test, expect } from '@jest/globals';
 import buildEngine from '../index.js';
 
 const doc1 = { id: 'doc1', text: "I can't shoot straight unless I've had a pint!" };
@@ -9,6 +10,10 @@ let searchEngine;
 beforeAll(() => {
   searchEngine = buildEngine(docs);
 });
+
+test('empty seach', () => {
+  expect(searchEngine.search('')).toEqual([]);
+})
 
 test('search with punctuation marks', () => {
   expect(searchEngine.search('pint')).toEqual(['doc1']);
