@@ -1,5 +1,4 @@
 // @ts-check
-import isEmpty from 'lodash/isEmpty';
 
 const getTerms = (text) => text.match(/\w+/g) ?? [];
 
@@ -38,6 +37,9 @@ const relevantSort = (search1, search2) => search2.meta.tfIdf - search1.meta.tfI
  */
 
 const reduceCount = (acc, docItem) => {
+  if (!docItem) {
+    return acc;
+  }
   const { id, count } = docItem;
   const prevIdItem = acc.find((item) => item.id === id);
   if (!prevIdItem) {
@@ -72,9 +74,6 @@ export default (docs) => {
   const dic = buildReversedIndex(docs);
   const search = (word) => {
     const queryTerms = getTerms(word);
-    if (isEmpty(queryTerms)) {
-      return [];
-    }
     const docsInfo = queryTerms.flatMap((term) => dic[term]).reduce(reduceCount, []);
     return docsInfo
       .map((info) => ({ ...info, meta: { tfIdf: getTfIdf(info, docsInfo, docs) } }))

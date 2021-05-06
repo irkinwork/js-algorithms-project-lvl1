@@ -15,6 +15,10 @@ test('empty seach', () => {
   expect(searchEngine.search('')).toEqual([]);
 });
 
+test('short word', () => {
+  expect(searchEngine.search('the a it')).toEqual(['doc1']);
+});
+
 test('search with punctuation marks', () => {
   expect(searchEngine.search('pint')).toEqual(['doc1']);
   expect(searchEngine.search('pint!')).toEqual(['doc1']);
