@@ -13,7 +13,7 @@ beforeAll(() => {
 
 test('empty seach', () => {
   expect(searchEngine.search('')).toEqual([]);
-})
+});
 
 test('search with punctuation marks', () => {
   expect(searchEngine.search('pint')).toEqual(['doc1']);

@@ -1,6 +1,7 @@
 // @ts-check
+import isEmpty from 'lodash/isEmpty';
 
-const getTerms = (text) => text.match(/\w+/g);
+const getTerms = (text) => text.match(/\w+/g) ?? [];
 
 const buildTermValue = (prev = [], id) => {
   const prevIdValue = prev.find((item) => item.id === id);
@@ -71,6 +72,9 @@ export default (docs) => {
   const dic = buildReversedIndex(docs);
   const search = (word) => {
     const queryTerms = getTerms(word);
+    if (isEmpty(queryTerms)) {
+      return [];
+    }
     const docsInfo = queryTerms.flatMap((term) => dic[term]).reduce(reduceCount, []);
     return docsInfo
       .map((info) => ({ ...info, meta: { tfIdf: getTfIdf(info, docsInfo, docs) } }))
