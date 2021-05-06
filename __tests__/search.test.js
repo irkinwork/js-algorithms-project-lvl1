@@ -8,17 +8,17 @@ const docs = [doc1, doc2, doc3];
 let searchEngine;
 beforeAll(() => {
   searchEngine = buildEngine(docs);
-})
+});
 
 test('search with punctuation marks', () => {
-  expect(searchEngine.search('pint')).toEqual(['doc1'])
-  expect(searchEngine.search('pint!')).toEqual(['doc1'])
+  expect(searchEngine.search('pint')).toEqual(['doc1']);
+  expect(searchEngine.search('pint!')).toEqual(['doc1']);
 });
 
 test('relevant search', () => {
-  expect(searchEngine.search('shoot')).toEqual(['doc2', 'doc1'])
-})
+  expect(searchEngine.search('shoot')).toEqual(['doc2', 'doc1']);
+});
 
 test('fuzzy search', () => {
-  expect(searchEngine.search('shoot at me')).toEqual(['doc2', 'doc1'])
-})
+  expect(searchEngine.search('shoot at me')).toEqual(['doc2', 'doc1']);
+});

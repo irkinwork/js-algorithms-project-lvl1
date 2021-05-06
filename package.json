@@ -2,9 +2,6 @@
   "name": "@hexlet/code",
   "version": "0.0.3",
   "description": "irkin-search-engine",
-  "bin": {
-    "hexlet": "bin/nodejs-package.js"
-  },
   "engines": {
     "node": ">=14"
   },
@@ -12,21 +9,12 @@
     "test": "npx jest"
   },
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/hexlet-boilerplates/nodejs-package.git"
+    "type": "git"
   },
   "author": "Irina Nikolaidi",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/hexlet-boilerplates/nodejs-package/issues"
-  },
   "jest": {
     "testEnvironment": "node"
-  },
-  "homepage": "https://github.com/hexlet-boilerplates/nodejs-package#readme",
-  "dependencies": {
-    "debug": "^4.3.1",
-    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@babel/cli": "^7.13.14",
