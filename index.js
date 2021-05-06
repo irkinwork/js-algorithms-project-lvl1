@@ -21,7 +21,20 @@ const buildTermValue = (prev = [], id) => {
     }, {})
  }
 
-const relevantSort = (search1, search2) => search2.count - search1.count;
+const relevantSort = (search1, search2) => search2.meta.tfIdf - search1.meta.tfIdf;
+
+/**
+ * in: [
+ *  {id: 'doc1', count: 1},
+ *  {id: 'doc2', count: 1},
+ *  {id: 'doc2', count: 3},
+ * ]
+ * 
+ * out: [
+ *  {id: 'doc1', count: 1},
+ *  {id: 'doc2', count: 4},
+ * ]
+ */
 
 const reduceCount = (acc, item) => {
     const {id, count} = item;
@@ -33,12 +46,32 @@ const reduceCount = (acc, item) => {
     return acc.map(item => item.id === id ? nextIdItem : item);
 }
 
+/**
+ * wtf is tf-idf?
+ * TF - количество искомого слова в текущем документе / количество всех слов в текущем документе. 
+ * idf = десятичный логарифм от количества всех документов / количества документов содержащих искомое слово
+ */
+
+const getTfIdf = (info, docsInfo, docs) => {
+    const targetWordCount = info.count;
+    const currentDoc = docs.find(doc => doc.id === info.id)
+    const allWordsCount = currentDoc.text.split(' ').length;
+    const tf = targetWordCount / allWordsCount;
+
+    const allDocsCount = docs.length;
+    const targetDocsCount = docsInfo.length;
+
+    const idf = Math.log10(allDocsCount / targetDocsCount);
+    return tf * idf;
+};
+
 export default (docs) => {
     const dic = buildReversedIndex(docs);
     const search = (word) => {
         const queryTerms = getTerms(word);
-        const docsCount = queryTerms.flatMap(term => dic[term]).reduce(reduceCount, []);
-        return docsCount
+        const docsInfo = queryTerms.flatMap(term => dic[term]).reduce(reduceCount, []);
+        return docsInfo
+            .map(info => ({...info, meta: {tfIdf: getTfIdf(info, docsInfo, docs)}}))
             .sort(relevantSort)
             .map(search => search.id);
     }
